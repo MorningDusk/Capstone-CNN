@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title> PCB 결함 탐지 </title>
+</head>
+
+<body>
+    {% if g.user %}
+    <div class="outline">
+        <h1 class="title"> 컴퓨터 비전 기반 PCB 결함 탐지 </h1>
+        <div class="inline">
+            <p class="margin1 link-box">
+                <a href="" class="blue-link" target="_blank">
+                    실제 예제 보기
+                </a>
+                |
+                <a href="" class="blue-link" target="_blank">
+                    GitHub에서 보기
+                </a>
+            </p>
+            
+            <p class="tab_menu">
+                <a href="img.html" class="mode_btn"><button type="img_btn"> 이미지 첨부 </button></a>
+                <a href="cam.html" class="mode_btn"><button type="cam_btn"> 웹캠 연동 </button></a>
+            </p>
+        </div>
+    </div>
+    <p> <a href="{{ url_for('auth.logout') }}"> {{ g.user.username }} (로그아웃) </a> </p>
+    {% else %}
+        <p> <a href="{{ url_for('auth.login') }}"> 로그인 </a> </p>
+    {% endif %}
+    <div style="margin-top: 10%; font-size: 10px">2023년 1학기 세종대학교 캡스톤 5조 팀 프로젝트</div>
+</body>
+
+</html>
