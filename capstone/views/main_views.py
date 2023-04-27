@@ -1,8 +1,8 @@
 from flask import Blueprint, url_for, session, render_template
 from werkzeug.utils import redirect
 
-from pybo import db
-from pybo.models import User
+from capstone import db
+from capstone.models import User
 
 bp = Blueprint('main', __name__, url_prefix='/')
 

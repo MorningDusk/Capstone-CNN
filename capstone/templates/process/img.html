@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<meta charset="UTF-8">
+
+<head>
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<title> PCB 결함 탐지 </title>
+</head>
+
+<body>
+    {% if g.user %}
+	<div class="outline">
+		<h1 class="title"> 컴퓨터 비전 기반 PCB 결함 탐지 </h1>
+		<div class="inline">
+			<p class="margin1 link-box">
+				<a href="" class="blue-link" target="_blank">
+					실제 예제 보기
+				</a>
+				|
+				<a href="https://github.com/choguitar/capstone" class="blue-link" target="_blank">
+					GitHub에서 보기
+				</a>
+			</p>
+
+			<p class="tab_menu">
+				<a class="mode_btn" href="{{ url_for('process.img') }}"><button type="img_btn" disabled> 이미지 첨부 </button></a>
+				<a class="mode_btn" href="{{ url_for('process.cam') }}"><button type="cam_btn"> 웹캠 연동 </button></a>
+			</p>
+
+			<div class="option-box first">
+				<label class="option-left" for="image-file">이미지 선택</label>
+				<div class="option-right">
+					<input type="url" id="image-url" name="image-url" placeholder="URL 입력">
+					<button onclick="loadImage()" style="margin:10px">불러오기</button>
+					<div class="option-right-small">
+						또는 파일 업로드:
+						<input type="file" id="image-file" name="image-file" accept="image/*"
+							onchange="showImage(event)">
+					</div>
+				</div>
+				<div class="option-hint file_limits">
+					제한: 5MB
+				</div>
+				<button id="delete-button" style="display:none; margin: auto; margin-bottom: 10px;" onclick="deleteImage()">삭제</button>
+				<img id="image-preview" style="display: none; margin: auto;" width="500" height="auto" src="" alt="">
+				<p id="error-message" style="display: none; color: red;">Error loading image.</p>
+			</div>
+
+			<input type=button id="analyze-button" type="analyze" class="button" value="분석" style="margin-bottom:20px" disabled>
+
+			<script>
+				function showImage(event) {
+					var imageFile = event.target.files[0];
+					var imageObjectURL = URL.createObjectURL(imageFile);
+					document.getElementById('image-preview').src = imageObjectURL;
+					document.getElementById('image-preview').style.display = "block";
+					document.getElementById('delete-button').style.display = "block";
+				}
+
+				function deleteImage() {
+					document.getElementById('image-url').value = "";
+					document.getElementById('image-file').value = "";
+					document.getElementById('image-preview').src = "";
+					document.getElementById('image-preview').style.display = "none";
+					document.getElementById('delete-button').style.display = "none";
+				}
+
+				function loadImage() {
+					var url = document.getElementById('image-url').value;
+					document.getElementById('image-preview').src = url;
+					document.getElementById('image-preview').style.display = "block";
+					document.getElementById('delete-button').style.display = "block";
+				}
+			</script>
+
+			<div
+				style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204); box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 3px; position: absolute; transition: visibility 0s linear 0.3s, opacity 0.3s linear 0s; opacity: 0; visibility: hidden; z-index: 2000000000; left: 0px; top: -10000px;">
+				<div
+					style="width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 2000000000; background-color: rgb(255, 255, 255); opacity: 0.05;">
+				</div>
+				<div class="g-recaptcha-bubble-arrow"
+					style="border: 11px solid transparent; width: 0px; height: 0px; position: absolute; pointer-events: none; margin-top: -11px; z-index: 2000000000;">
+				</div>
+				<div class="g-recaptcha-bubble-arrow"
+					style="border: 10px solid transparent; width: 0px; height: 0px; position: absolute; pointer-events: none; margin-top: -10px; z-index: 2000000000;">
+				</div>
+				<div style="z-index: 2000000000; position: relative;"><iframe
+						title="recaptcha challenge expires in two minutes" src="./waifu2x_files/bframe.html"
+						name="c-c5lcwcub9i78" frameborder="0" scrolling="no"
+						sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox"
+						style="width: 100%; height: 100%;"></iframe></div>
+			</div>
+
+			<div
+				style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204); box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 3px; position: absolute; transition: visibility 0s linear 0.3s, opacity 0.3s linear 0s; opacity: 0; visibility: hidden; z-index: 2000000000; left: 0px; top: -10000px;">
+				<div
+					style="width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 2000000000; background-color: rgb(255, 255, 255); opacity: 0.05;">
+				</div>
+				<div class="g-recaptcha-bubble-arrow"
+					style="border: 11px solid transparent; width: 0px; height: 0px; position: absolute; pointer-events: none; margin-top: -11px; z-index: 2000000000;">
+				</div>
+				<div class="g-recaptcha-bubble-arrow"
+					style="border: 10px solid transparent; width: 0px; height: 0px; position: absolute; pointer-events: none; margin-top: -10px; z-index: 2000000000;">
+				</div>
+				<div style="z-index: 2000000000; position: relative;"><iframe
+						title="recaptcha challenge expires in two minutes" src="./waifu2x_files/bframe.html"
+						name="c-c5lcwcub9i78" frameborder="0" scrolling="no"
+						sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox"
+						style="width: 100%; height: 100%;"></iframe></div>
+			</div>
+		</div>
+	</div>
+	<p> <a href="{{ url_for('auth.logout') }}"> {{ g.user.username }} (로그아웃) </a> </p>
+    {% else %}
+        <p> <a href="{{ url_for('auth.login') }}"> 로그인 </a> </p>
+    {% endif %}
+	<div style="margin-top: 10%; font-size: 10px">2023년 1학기 세종대학교 캡스톤 5조 팀 프로젝트</div>
+</body>
+
+</html>

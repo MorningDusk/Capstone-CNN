@@ -18,14 +18,14 @@
                     실제 예제 보기
                 </a>
                 |
-                <a href="" class="blue-link" target="_blank">
+                <a href="https://github.com/choguitar/capstone" class="blue-link" target="_blank">
                     GitHub에서 보기
                 </a>
             </p>
-            
+
             <p class="tab_menu">
-                <a href="img.html" class="mode_btn"><button type="img_btn"> 이미지 첨부 </button></a>
-                <a href="cam.html" class="mode_btn"><button type="cam_btn"> 웹캠 연동 </button></a>
+                <a class="mode_btn" href="{{ url_for('process.img') }}"><button type="img_btn"> 이미지 첨부 </button></a>
+                <a class="mode_btn" href="{{ url_for('process.cam') }}"><button type="cam_btn"> 웹캠 연동 </button></a>
             </p>
         </div>
     </div>
