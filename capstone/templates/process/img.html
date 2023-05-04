@@ -1,16 +1,24 @@
+{%with messages = get_flashed_messages()%}
+{%if messages %}
+<script type="text/javascript">
+	alert("{{messages[-1]}}");
+</script>
+{%endif%}
+{%endwith%}
+
 <!DOCTYPE html>
 <html lang="ko">
 <meta charset="UTF-8">
 
 <head>
-    <link href="style.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<link href="style.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 	<title> PCB 결함 탐지 </title>
 </head>
 
 <body>
-    {% if g.user %}
+	{% if g.user %}
 	<div class="outline">
 		<h1 class="title"> 컴퓨터 비전 기반 PCB 결함 탐지 </h1>
 		<div class="inline">
@@ -25,52 +33,56 @@
 			</p>
 
 			<p class="tab_menu">
-				<a class="mode_btn" href="{{ url_for('process.img') }}"><button type="img_btn" disabled> 이미지 첨부 </button></a>
+				<a class="mode_btn" href="{{ url_for('process.img') }}"><button type="img_btn" disabled> 이미지 첨부
+					</button></a>
 				<a class="mode_btn" href="{{ url_for('process.cam') }}"><button type="cam_btn"> 웹캠 연동 </button></a>
 			</p>
-
-			<div class="option-box first">
-				<label class="option-left" for="image-file">이미지 선택</label>
-				<div class="option-right">
-					<input type="url" id="image-url" name="image-url" placeholder="URL 입력">
-					<button onclick="loadImage()" style="margin:10px">불러오기</button>
-					<div class="option-right-small">
-						또는 파일 업로드:
-						<input type="file" id="image-file" name="image-file" accept="image/*"
-							onchange="showImage(event)">
+			<form method="post" enctype="multipart/form-data">
+				<div class="option-box first">
+					<label class="option-left" for="image-file">이미지 선택</label>
+					<div class="option-right">
+						<input type="url" id="image-url" name="image-url" placeholder="URL 입력">
+						<button onclick="loadImage()" style="margin:10px">불러오기</button>
+						<div class="option-right-small">
+							또는 파일 업로드:
+							<input type="file" id="image-file" name="image-file" accept="image/*"
+								onchange="showImage(event)">
+						</div>
 					</div>
-				</div>
-				<div class="option-hint file_limits">
-					제한: 5MB
-				</div>
-				<button id="delete-button" style="display:none; margin: auto; margin-bottom: 10px;" onclick="deleteImage()">삭제</button>
-				<img id="image-preview" style="display: none; margin: auto;" width="500" height="auto" src="" alt="">
-				<p id="error-message" style="display: none; color: red;">Error loading image.</p>
-			</div>
+					<div class="option-hint file_limits">
+						제한: 5MB
+					</div>
+					<button id="delete-button" style="display:none; margin: auto; margin-bottom: 10px;"
+						onclick="deleteImage()">삭제</button>
 
-			<input type=button id="analyze-button" type="analyze" class="button" value="분석" style="margin-bottom:20px" disabled>
+					<img id="image" style="display: none; margin: auto;" width="500" height="auto" src="" alt="">
 
+					<p id="error-message" style="display: none; color: red;">Error loading image.</p>
+				</div>
+
+				<input type="submit" id="analyze-button" class="button" value="분석" style="margin-bottom:20px">
+			</form>
 			<script>
 				function showImage(event) {
 					var imageFile = event.target.files[0];
 					var imageObjectURL = URL.createObjectURL(imageFile);
-					document.getElementById('image-preview').src = imageObjectURL;
-					document.getElementById('image-preview').style.display = "block";
+					document.getElementById('image').src = imageObjectURL;
+					document.getElementById('image').style.display = "block";
 					document.getElementById('delete-button').style.display = "block";
 				}
 
 				function deleteImage() {
 					document.getElementById('image-url').value = "";
 					document.getElementById('image-file').value = "";
-					document.getElementById('image-preview').src = "";
-					document.getElementById('image-preview').style.display = "none";
+					document.getElementById('image').src = "";
+					document.getElementById('image').style.display = "none";
 					document.getElementById('delete-button').style.display = "none";
 				}
 
 				function loadImage() {
 					var url = document.getElementById('image-url').value;
-					document.getElementById('image-preview').src = url;
-					document.getElementById('image-preview').style.display = "block";
+					document.getElementById('image').src = url;
+					document.getElementById('image').style.display = "block";
 					document.getElementById('delete-button').style.display = "block";
 				}
 			</script>
@@ -113,9 +125,9 @@
 		</div>
 	</div>
 	<p> <a href="{{ url_for('auth.logout') }}"> {{ g.user.username }} (로그아웃) </a> </p>
-    {% else %}
-        <p> <a href="{{ url_for('auth.login') }}"> 로그인 </a> </p>
-    {% endif %}
+	{% else %}
+	<p> <a href="{{ url_for('auth.login') }}"> 로그인 </a> </p>
+	{% endif %}
 	<div style="margin-top: 10%; font-size: 10px">2023년 1학기 세종대학교 캡스톤 5조 팀 프로젝트</div>
 </body>
 

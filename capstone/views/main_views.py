@@ -13,10 +13,9 @@ def select():
 
 @bp.route('/')
 def index():
-    current_app.logger.info("INFO 레벨로 출력")
+    #current_app.logger.info("INFO 레벨로 출력")
     user_id = session.get('user_id')
     if user_id is None:
         return redirect(url_for('auth.login'))
     else:
         return redirect(url_for('main.select'))
-
