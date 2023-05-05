@@ -1,5 +1,5 @@
 .idea
-capstone.db.db
+capstone.db
 *.pyc
 __pycache__
 migrations
