@@ -15,6 +15,44 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 	<title> PCB 결함 탐지 </title>
+
+	<script>
+
+	</script>
+	<script>
+        var isLoad = false;
+
+		function showImage(event) {
+			var imageFile = event.target.files[0];
+			var imageObjectURL = URL.createObjectURL(imageFile);
+			document.getElementById('image').src = imageObjectURL;
+			document.getElementById('image').style.display = "block";
+			document.getElementById('delete-button').style.display = "block";
+            isLoad = true;
+		}
+
+		function deleteImage() {
+			document.getElementById('image-url').value = "";
+			document.getElementById('image-file').value = "";
+			document.getElementById('image').src = "";
+			document.getElementById('image').style.display = "none";
+			document.getElementById('delete-button').style.display = "none";
+            isLoad = false;
+		}
+
+		function loadImage() {
+			var url = document.getElementById('image-url').value;
+			document.getElementById('image').src = url;
+			document.getElementById('image').style.display = "block";
+			document.getElementById('delete-button').style.display = "block";
+            isLoad = true;
+		}
+		function resultPopup() {
+            if (isLoad) {
+                window.open("{{ url_for('process.result') }}", "result", "width=300, height=400, left=0, top=0");
+            }
+		}
+	</script>
 </head>
 
 <body>
@@ -60,32 +98,9 @@
 					<p id="error-message" style="display: none; color: red;">Error loading image.</p>
 				</div>
 
-				<input type="submit" id="analyze-button" class="button" value="분석" style="margin-bottom:20px">
+				<input type="submit" id="analyze-button" class="button" value="분석" style="margin-bottom:20px"
+					onclick="resultPopup()">
 			</form>
-			<script>
-				function showImage(event) {
-					var imageFile = event.target.files[0];
-					var imageObjectURL = URL.createObjectURL(imageFile);
-					document.getElementById('image').src = imageObjectURL;
-					document.getElementById('image').style.display = "block";
-					document.getElementById('delete-button').style.display = "block";
-				}
-
-				function deleteImage() {
-					document.getElementById('image-url').value = "";
-					document.getElementById('image-file').value = "";
-					document.getElementById('image').src = "";
-					document.getElementById('image').style.display = "none";
-					document.getElementById('delete-button').style.display = "none";
-				}
-
-				function loadImage() {
-					var url = document.getElementById('image-url').value;
-					document.getElementById('image').src = url;
-					document.getElementById('image').style.display = "block";
-					document.getElementById('delete-button').style.display = "block";
-				}
-			</script>
 
 			<div
 				style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204); box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 3px; position: absolute; transition: visibility 0s linear 0.3s, opacity 0.3s linear 0s; opacity: 0; visibility: hidden; z-index: 2000000000; left: 0px; top: -10000px;">

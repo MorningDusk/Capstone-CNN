@@ -48,8 +48,6 @@ def img():
             db.session.add(image)
             db.session.commit()
 
-            print(request_process(image.id))
-
             return redirect(url_for('main.index'))
         elif len(url) != 0:
             if is_image_url(url):
@@ -60,8 +58,6 @@ def img():
                     image = Image(user=user_id, image=response.content, date=time_now)
                     db.session.add(image)
                     db.session.commit()
-
-                    print(request_process(image.id))
 
                     return redirect(url_for('main.index'))
                 else:
@@ -75,3 +71,17 @@ def img():
 @bp.route('/cam', methods=('GET', 'POST'))
 def cam():
     return render_template('process/cam.html')
+
+@bp.route('/result', methods=('GET', 'POST'))
+def result():
+    return render_template('process/result.html')
+
+@bp.route('/save', methods=('GET', 'POST'))
+def save_image():
+    user_id = session.get('user_id')
+    time_now = datetime.now(pytz.timezone('Asia/Seoul'))
+    data = request.files['image'].read()
+    image = Image(user=user_id, image=data, date=time_now)
+    db.session.add(image)
+    db.session.commit()
+    return redirect(url_for('main.index'))
