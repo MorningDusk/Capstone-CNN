@@ -1,12 +1,14 @@
+from datetime import datetime
 import io
 
 from flask import Blueprint, url_for, render_template, flash, request, session, g
 from werkzeug.utils import redirect
 import requests
-from PIL import Image as Img
+import pytz
 
 from capstone import db
 from capstone.forms import ImageForm
+from capstone.models import User
 from capstone.models import Image
 
 bp = Blueprint('process', __name__, url_prefix='/process')
@@ -22,6 +24,17 @@ def is_image_url(url):
     else:
         return False
 
+def request_process(id):
+    data = {'value': id}
+    url = 'http://7d5b-34-143-145-123.ngrok-free.app/process'
+    response = requests.post(url, json=data)
+
+    if response.status_code == 200:
+        return response.json()['result']
+    else:
+        return None
+
+
 @bp.route('/img', methods=('GET', 'POST'))
 def img():
     form = ImageForm()
@@ -29,17 +42,27 @@ def img():
         file = request.files['image-file']
         url = request.form['image-url']
         if file:
-            image = Image(image=file.read())
+            user_id = session.get('user_id')
+            time_now = datetime.now(pytz.timezone('Asia/Seoul'))
+            image = Image(user=user_id, image=file.read(), date=time_now)
             db.session.add(image)
             db.session.commit()
+
+            print(request_process(image.id))
+
             return redirect(url_for('main.index'))
         elif len(url) != 0:
             if is_image_url(url):
                 response = requests.get(url)
                 if response.status_code == 200:
-                    image = Image(image=response.content)
+                    user_id = session.get('user_id')
+                    time_now = datetime.now(pytz.timezone('Asia/Seoul'))
+                    image = Image(user=user_id, image=response.content, date=time_now)
                     db.session.add(image)
                     db.session.commit()
+
+                    print(request_process(image.id))
+
                     return redirect(url_for('main.index'))
                 else:
                     flash("오류가 발생했습니다.")

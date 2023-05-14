@@ -1,4 +1,7 @@
+import pytz
+
 from capstone import db
+from datetime import datetime
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -10,4 +13,7 @@ class User(db.Model):
 
 class Image(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    user = db.Column(db.Integer, nullable=False)
     image = db.Column(db.LargeBinary, nullable=False)
+    result = db.Column(db.LargeBinary, nullable=True)
+    date = db.Column(db.DateTime, default=datetime.now(pytz.timezone('Asia/Seoul')), nullable=False)
