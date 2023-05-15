@@ -5,6 +5,7 @@ from flask import Blueprint, url_for, render_template, flash, request, session, 
 from werkzeug.utils import redirect
 import requests
 import pytz
+import base64
 
 from capstone import db
 from capstone.forms import ImageForm
@@ -40,6 +41,7 @@ def img():
     form = ImageForm()
     if request.method == 'POST':
         file = request.files['image-file']
+        print(type(file))
         url = request.form['image-url']
         if file:
             user_id = session.get('user_id')
@@ -70,18 +72,26 @@ def img():
 
 @bp.route('/cam', methods=('GET', 'POST'))
 def cam():
+    if request.method == 'POST':
+        if request.form.get('source') == 'javascript':
+            user_id = session.get('user_id')
+            time_now = datetime.now(pytz.timezone('Asia/Seoul'))
+            data_url = request.form['image']
+            data = base64.b64decode(data_url.split(',')[1])
+            image = Image(user=user_id, image=data, date=time_now)
+            db.session.add(image)
+            db.session.commit()
+
     return render_template('process/cam.html')
 
 @bp.route('/result', methods=('GET', 'POST'))
 def result():
     return render_template('process/result.html')
 
-@bp.route('/save', methods=('GET', 'POST'))
-def save_image():
+@bp.route('/captured', methods=('GET', 'POST'))
+def captured():
     user_id = session.get('user_id')
-    time_now = datetime.now(pytz.timezone('Asia/Seoul'))
-    data = request.files['image'].read()
-    image = Image(user=user_id, image=data, date=time_now)
-    db.session.add(image)
-    db.session.commit()
-    return redirect(url_for('main.index'))
+    images = Image.query.filter_by(user=user_id).all()
+    for image in images:
+        image.image = base64.b64encode(image.image).decode('utf-8')
+    return render_template('process/captured.html', images=images)

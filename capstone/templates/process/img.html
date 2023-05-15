@@ -47,6 +47,7 @@
 			document.getElementById('delete-button').style.display = "block";
             isLoad = true;
 		}
+
 		function resultPopup() {
             if (isLoad) {
                 window.open("{{ url_for('process.result') }}", "result", "width=300, height=400, left=0, top=0");
