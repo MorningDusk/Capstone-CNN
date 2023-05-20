@@ -48,10 +48,8 @@
             isLoad = true;
 		}
 
-		function resultPopup() {
-            if (isLoad) {
-                window.open("{{ url_for('process.result') }}", "result", "width=300, height=400, left=0, top=0");
-            }
+		function capturedPopup() {
+            window.open("{{ url_for('process.captured') }}", "captured", "width=600, height=1000, left=0, top=0");
 		}
 	</script>
 </head>
@@ -99,8 +97,9 @@
 					<p id="error-message" style="display: none; color: red;">Error loading image.</p>
 				</div>
 
-				<input type="submit" id="analyze-button" class="button" value="분석" style="margin-bottom:20px"
-					onclick="resultPopup()">
+				<input type="submit" id="analyze-button" name="type" class="button" value="저장" style="margin-bottom:20px">
+				<input type="submit" id="check-button" name="type" class="button" value="조회" style="margin-bottom:20px"
+					onclick="capturedPopup()">
 			</form>
 
 			<div

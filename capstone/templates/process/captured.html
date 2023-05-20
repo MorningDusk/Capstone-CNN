@@ -3,7 +3,14 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title> 저장된 이미지 조회 </title>
+
+    <script>
+    function resultPopup(id) {
+        url = '/process/result/' + id.toString();
+        window.open(url, "result", "width=450, height=250, left=400, top=200");
+		}
+	</script>
 </head>
 
 <body>
@@ -20,7 +27,12 @@
       <tr>
         <td><img src="data:image/png;base64,{{ image.image }}" alt="{{ image.id }}" width="100" height="100"></td>
         <td>{{ image.date }}</td>
-        <td><input type=button id="analyze-button" type="analyze" class="button" style="margin:auto" value="분석"></td>
+        <td>
+            <form method="post">
+                <input type="button" id="analyze-button" type="analyze" class="button" style="margin:auto" value="분석"
+                onclick="resultPopup({{ image.id }})">
+            </form>
+        </td>
       </tr>
       {% endfor %}
     </tbody>
