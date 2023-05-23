@@ -24,9 +24,9 @@
             </p>
 
             <p class="tab_menu">
-                <a class="mode_btn" href="{{ url_for('process.img') }}"><button type="img_btn"> 이미지 첨부 </button></a>
-                <a class="mode_btn" href="{{ url_for('process.cam') }}"><button type="cam_btn"> 웹캠 연동 </button></a>
-            </p>
+				<a class="mode_btn" href="{{ url_for('process.img') }}"><button type="img_btn" class="mini-button"> 이미지 첨부 </button></a>
+				<a class="mode_btn" href="{{ url_for('process.cam') }}"><button type="cam_btn" class="mini-button"> 웹캠 연동 </button></a>
+			</p>
         </div>
     </div>
     <p> <a href="{{ url_for('auth.logout') }}"> {{ g.user.username }} (로그아웃) </a> </p>
