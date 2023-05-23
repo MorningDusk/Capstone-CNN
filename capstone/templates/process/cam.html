@@ -105,6 +105,18 @@
         function capturedPopup() {
             window.open("{{ url_for('process.captured') }}", "captured", "width=600, height=1000, left=0, top=0");
 		}
+
+        function VideoHandler(self) {
+            var target = document.querySelector('body');
+            if (self.value == 'off') {
+                self.value = 'on'
+                startVideo();
+            }
+            else {
+                self.value = 'off'
+                stopVideo();
+            }
+        }
 	</script>
 </head>
 
@@ -124,8 +136,8 @@
 			</p>
 
 			<p class="tab_menu">
-				<a class="mode_btn" href="{{ url_for('process.img') }}"><button type="img_btn"> 이미지 첨부 </button></a>
-				<a class="mode_btn" href="{{ url_for('process.cam') }}"><button type="cam_btn" style="margin-right:1px"
+				<a class="mode_btn" href="{{ url_for('process.img') }}"><button type="img_btn " class="mini-button"> 이미지 첨부 </button></a>
+				<a class="mode_btn" href="{{ url_for('process.cam') }}"><button type="cam_btn" class="mini-button" style="margin-right:1px"
 						disabled> 웹캠 연동 </button></a>
 			</p>
 
@@ -133,13 +145,19 @@
 				<input type="hidden" name="recap" id="recap_response">
 				<div class="option-box first">
 					<div>
-						<input type=button value="비디오 활성화" onclick="{startVideo()}"
-							style="margin-left:13px; margin-bottom:5px;">
-						<input type=button value="비디오 비활성화" onclick="{stopVideo()}" style="margin-bottom:5px;"><br>
+                        <div style="width:25%; height:60px; margin:auto;" >
+                            <p style="vertical-align:center; float:left; font-size:15px; padding-right:10px">비디오 활성화</p>
+                            <div class="wrapper" style="margin:auto; padding: 9px; text-align:center;">
+                                <input type="checkbox" id="switch" value="off" onclick="VideoHandler(this);">
+                                <label for="switch" class="switch_label">
+                                    <span class="onf_btn"></span>
+                                </label>
+                            </div>
+                        </div>
 
-						<input type=button id="capture" value="캡쳐" onclick="{takeSnapshot()}" style="margin-bottom:5px;"
+						<input type=button id="capture" value="캡쳐" class="mini-button" onclick="{takeSnapshot()}" style="margin-bottom:5px;"
 							disabled>
-						<input type=button id="save" value="저장" onclick="{downloadCanvas()}" style="margin-bottom:5px;"
+						<input type=button id="save" value="저장" class="mini-button" onclick="{downloadCanvas()}" style="margin-bottom:5px;"
 							disabled>
 						<br>
 						<input type=number id="myInterval" value="300" style="width: 60px;"> msec 마다 자동 캡쳐
@@ -148,7 +166,7 @@
 					</div>
 
 					<br>
-					<input type=button id="check-button" type="check" class="button" style="margin:auto" value="조회"
+					<input type=button id="analyze-button" type="analyze" class="submit" style="margin:auto" value="조회"
 						onclick="capturedPopup()">
                     <input type="hidden" name="source" value="form">
 				</div>

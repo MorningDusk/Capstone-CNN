@@ -93,7 +93,7 @@ def cam():
 
 @bp.route('/result/<id>', methods=('GET', 'POST'))
 def result(id):
-    id = request_process(id)
+    #id = request_process(id) # 머신러닝 서버
 
     image = Image.query.filter_by(id=id).first()
     image.image = base64.b64encode(image.image).decode('utf-8')

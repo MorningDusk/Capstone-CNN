@@ -15,10 +15,7 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 	<title> PCB 결함 탐지 </title>
-
-	<script>
-
-	</script>
+	
 	<script>
         var isLoad = false;
 
@@ -70,16 +67,16 @@
 			</p>
 
 			<p class="tab_menu">
-				<a class="mode_btn" href="{{ url_for('process.img') }}"><button type="img_btn" disabled> 이미지 첨부
+				<a class="mode_btn" href="{{ url_for('process.img') }}"><button type="img_btn" class="mini-button" disabled> 이미지 첨부
 					</button></a>
-				<a class="mode_btn" href="{{ url_for('process.cam') }}"><button type="cam_btn"> 웹캠 연동 </button></a>
+				<a class="mode_btn" href="{{ url_for('process.cam') }}"><button type="cam_btn" class="mini-button"> 웹캠 연동 </button></a>
 			</p>
 			<form method="post" enctype="multipart/form-data">
 				<div class="option-box first">
-					<label class="option-left" for="image-file">이미지 선택</label>
+					<label class="option-left" for="image-file">내 PC에서 가져오기</label>
 					<div class="option-right">
-						<input type="url" id="image-url" name="image-url" placeholder="URL 입력">
-						<button onclick="loadImage()" style="margin:10px">불러오기</button>
+						<input type="url" id="image-url" name="image-url" placeholder="URL 입력" style="height:60px;">
+						<button onclick="loadImage()" class=submit2>불러오기</button>
 						<div class="option-right-small">
 							또는 파일 업로드:
 							<input type="file" id="image-file" name="image-file" accept="image/*"

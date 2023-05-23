@@ -5,33 +5,34 @@
   <meta charset="UTF-8">
   <title> 저장된 이미지 조회 </title>
 
-    <script>
+  <script>
     function resultPopup(id) {
-        url = '/process/result/' + id.toString();
-        window.open(url, "result", "width=450, height=250, left=400, top=200");
-		}
-	</script>
+      url = '/process/result/' + id.toString();
+      window.open(url, "result", "width=450, height=250, left=400, top=200");
+    }
+  </script>
 </head>
 
-<body>
-  <table>
-    <thead>
+<body style="margin:auto; max-width:550px; padding:20px;">
+  <table style="width:100%; border: solid 8px #0ca3d2; border-radius: 0.5em 0.5em 0.5em 0.5em;">
+    <thead style="background-color:#f3f3f3; border: solid #555; border-bottom: solid 2px; height:40px;">
       <tr>
-        <th>이미지</th>
-        <th>날짜</th>
+        <th style="text-align:center; width:10em; margin:auto">이미지</th>
+        <th style="text-align:center; width:10em; margin:auto">날짜</th>
         <th> </th>
       </tr>
     </thead>
     <tbody>
       {% for image in images %}
       <tr>
-        <td><img src="data:image/png;base64,{{ image.image }}" alt="{{ image.id }}" width="100" height="100"></td>
-        <td>{{ image.date }}</td>
-        <td>
-            <form method="post">
-                <input type="button" id="analyze-button" type="analyze" class="button" style="margin:auto" value="분석"
-                onclick="resultPopup({{ image.id }})">
-            </form>
+        <td style="width:106px; margin:auto; text-align:center"><img src="data:image/png;base64,{{ image.image }}"
+            alt="{{ image.id }}" width="100" height="100"></td>
+        <td style="text-aling:center">{{ image.date }}</td>
+        <td style="margin:auto; text-align:center; padding:10px;">
+          <form method="post">
+            <input type="button" id="analyze-button" type="analyze" class="button" style="margin:auto" value="분석"
+              onclick="resultPopup({{ image.id }})">
+          </form>
         </td>
       </tr>
       {% endfor %}
