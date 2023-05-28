@@ -29,6 +29,7 @@
 
 						document.getElementById('capture').disabled = false;
 						document.getElementById('auto_apply').disabled = false;
+						document.getElementById('auto_disapply').disabled = false;
 					})
 					.catch(function (err) {
 						console.log("An error occurred: " + err);
@@ -44,6 +45,7 @@
 				document.getElementById('capture').disabled = true;
 				document.getElementById('save').disabled = true;
                 document.getElementById('auto_apply').disabled = true;
+                document.getElementById('auto_disapply').disabled = true;
 			}
 
 			if (ctx) {
@@ -170,6 +172,7 @@
 						<br>
 						<input type=number id="myInterval" value="300" style="width: 60px;"> msec 마다 자동 캡쳐
 						<input type=button id="auto_apply" value="적용" onclick="{takeAuto()}" disabled>
+						<input type=button id="auto_disapply" value="비활성화" onclick="{stopAuto()}" disabled>
 					</div>
 
 					<br>

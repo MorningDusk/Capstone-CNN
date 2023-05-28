@@ -20,7 +20,8 @@ def signup():
                         password=generate_password_hash(form.password1.data),
                         email=form.email.data,
                         username=form.username.data,
-                        authority=form.authority.data)
+                        authority=1)
+                        #authority=form.authority.data)
             db.session.add(user)
             db.session.commit()
             return redirect(url_for('main.index'))
