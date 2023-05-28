@@ -28,15 +28,6 @@
             isLoad = true;
 		}
 
-		function deleteImage() {
-			document.getElementById('image-url').value = "";
-			document.getElementById('image-file').value = "";
-			document.getElementById('image').src = "";
-			document.getElementById('image').style.display = "none";
-			document.getElementById('delete-button').style.display = "none";
-            isLoad = false;
-		}
-
 		function loadImage() {
 			var url = document.getElementById('image-url').value;
 			document.getElementById('image').src = url;
@@ -83,11 +74,14 @@
 								onchange="showImage(event)">
 						</div>
 					</div>
-					<div class="option-hint file_limits">
-						제한: 5MB
-					</div>
-					<button id="delete-button" style="display:none; margin: auto; margin-bottom: 10px;"
-						onclick="deleteImage()">삭제</button>
+
+                    <br>
+                    <select name="PCB_type" id="PCB_type">
+                        <option value="0"> TM_Chassis_Single </option>
+                        <option value="1"> TM_Chassis_MULT </option>
+                        <option value="2"> TM-A_Chassis_Single </option>
+                        <option value="3"> TM-A_Chassis_MULT </option>
+                    </select>
 
 					<img id="image" style="display: none; margin: auto;" width="500" height="auto" src="" alt="">
 

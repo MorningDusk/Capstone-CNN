@@ -16,4 +16,5 @@ class Image(db.Model):
     user = db.Column(db.Integer, nullable=False)
     image = db.Column(db.LargeBinary, nullable=False)
     result = db.Column(db.LargeBinary, nullable=True)
+    type = db.Column(db.Integer, nullable=False)
     date = db.Column(db.DateTime, default=datetime.now(pytz.timezone('Asia/Seoul')), nullable=False)

@@ -44,30 +44,30 @@ def img():
     if request.method == 'POST':
         if request.form['type'] == '저장':
             file = request.files['image-file']
+            typ = int(request.form['PCB_type'])
             url = request.form['image-url']
+
             if file:
                 user_id = session.get('user_id')
                 time_now = datetime.now(pytz.timezone('Asia/Seoul'))
-                image = Image(user=user_id, image=file.read(), date=time_now)
+                image = Image(user=user_id, image=file.read(), type=typ, date=time_now)
                 db.session.add(image)
                 db.session.commit()
 
                 flash("파일이 업로드되었습니다.")
                 return render_template('process/img.html', form=form)
-                #return redirect(url_for('main.index'))
             elif len(url) != 0:
                 if is_image_url(url):
                     response = requests.get(url)
                     if response.status_code == 200:
                         user_id = session.get('user_id')
                         time_now = datetime.now(pytz.timezone('Asia/Seoul'))
-                        image = Image(user=user_id, image=response.content, date=time_now)
+                        image = Image(user=user_id, image=response.content, type=typ, date=time_now)
                         db.session.add(image)
                         db.session.commit()
 
                         flash("파일이 업로드되었습니다.")
                         return render_template('process/img.html', form=form)
-                        #return redirect(url_for('main.index'))
                     else:
                         flash("오류가 발생했습니다.")
                 else:
@@ -82,10 +82,11 @@ def cam():
     if request.method == 'POST':
         if request.form.get('source') == 'javascript':
             user_id = session.get('user_id')
+            typ = int(request.form.get('type'))
             time_now = datetime.now(pytz.timezone('Asia/Seoul'))
             data_url = request.form['image']
             data = base64.b64decode(data_url.split(',')[1])
-            image = Image(user=user_id, image=data, date=time_now)
+            image = Image(user=user_id, image=data, type=typ, date=time_now)
             db.session.add(image)
             db.session.commit()
 

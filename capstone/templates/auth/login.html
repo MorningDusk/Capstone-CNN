@@ -45,13 +45,7 @@
                 <p><input type="text" name="userid" id="userid" value="{{ form.userid.data or '' }}" placeholder="아이디"></p>
                 <p><input type="password" name="password" id="password" value="{{ form.password.data or '' }}" placeholder="비밀번호"></p>
                 <p><button type="submit" class="submit">로그인</button></p>
-                <!--p class="remember_me">
-                    <label>
-                        <input type="checkbox" name="maintain" id="maintain">
-                        로그인 유지
-                    </label>
-                </p-->
-                <p> <a href="{{ url_for('auth.signup') }}"> 회원가입 </a> | <a href="forgotpassword.html"> 비밀번호를 잊어버렸어요. </a> </p>
+                <p> <a href="{{ url_for('auth.signup') }}"> 회원가입 </a> <!--a href="forgotpassword.html"> 비밀번호를 잊어버렸어요. </a--> </p>
             </form>
         </div>
     </div>

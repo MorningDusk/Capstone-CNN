@@ -43,6 +43,7 @@
 
 				document.getElementById('capture').disabled = true;
 				document.getElementById('save').disabled = true;
+                document.getElementById('auto_apply').disabled = true;
 			}
 
 			if (ctx) {
@@ -60,8 +61,10 @@
 
 		function saveImage() {
 			var formData = new FormData();
+            var type = document.getElementById("PCB_type");
 			formData.append('source', 'javascript');
 			formData.append('image', canvas.toDataURL());
+            formData.append('type', type.options[type.selectedIndex].value);
 
 			var xhr = new XMLHttpRequest();
 			xhr.open('POST', '{{ url_for('process.cam') }}');
@@ -92,14 +95,11 @@
 				takeSnapshot()
 			}, document.getElementById('myInterval').value);
 
-			document.getElementById('auto_disable').disabled = false;
 		}
 
 		function stopAuto() {
 			clearInterval(interval)
 			interval = 0
-
-			document.getElementById('auto_disable').disabled = true;
 		}
 
         function capturedPopup() {
@@ -155,6 +155,14 @@
                             </div>
                         </div>
 
+                        <select name="PCB_type" id="PCB_type">
+                            <option value="0"> TM_Chassis_Single </option>
+                            <option value="1"> TM_Chassis_MULT </option>
+                            <option value="2"> TM-A_Chassis_Single </option>
+                            <option value="3"> TM-A_Chassis_MULT </option>
+                        </select>
+                        <br>
+
 						<input type=button id="capture" value="캡쳐" class="mini-button" onclick="{takeSnapshot()}" style="margin-bottom:5px;"
 							disabled>
 						<input type=button id="save" value="저장" class="mini-button" onclick="{downloadCanvas()}" style="margin-bottom:5px;"
@@ -162,7 +170,6 @@
 						<br>
 						<input type=number id="myInterval" value="300" style="width: 60px;"> msec 마다 자동 캡쳐
 						<input type=button id="auto_apply" value="적용" onclick="{takeAuto()}" disabled>
-						<input type=button id="auto_disable" value="비활성화" onclick="{stopAuto()}" disabled>
 					</div>
 
 					<br>
