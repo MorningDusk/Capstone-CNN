@@ -18,3 +18,8 @@ class Image(db.Model):
     result = db.Column(db.LargeBinary, nullable=True)
     type = db.Column(db.Integer, nullable=False)
     date = db.Column(db.DateTime, default=datetime.now(pytz.timezone('Asia/Seoul')), nullable=False)
+
+class Report(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    image = db.Column(db.Integer, nullable=False)
+    content = db.Column(db.text)

@@ -11,8 +11,47 @@
 <head>
     <meta charset="UTF-8">
     <title>분석 결과</title>
+
+    <style>
+        .error_report_btn {
+            margin: 1%;
+            padding: 1% 5%;
+            width: 30%;
+            height: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffffff;
+            background: #e0557d;
+            border: 1px solid;
+            border-color: #c4c4c4 #d1d1d1 #d4d4d4;
+            border-radius: 2px 2px 2px 2px;
+            outline: 5px solid #eff4f7;
+            -moz-outline-radius: 3px;
+            -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12);
+        }
+
+        .error_report_btn:hover {
+            background-color: #CF4E73;
+            outline-color: #dedede;
+        }
+
+        .error_report_btn:active {
+            background-color: #ED5A84;
+        }
+    </style>
+
+    <script>
+        function errorPopup() {
+            window.open("{{ url_for('process.error') }}", "error", "width=600, height=480, left=0, top=0");
+		}
+    </script>
 </head>
 <body>
-    <img src="data:image/png;base64,{{ image.image }}" alt="image" width="1000" height="550">
+    <div style="text-align: center">
+        <img src="data:image/png;base64,{{ image.image }}" alt="image" width="1000" height="550">
+        <br>
+        <button name="err_report" id="err_report" class="error_report_btn" onclick="errorPopup()"> 오류 신고 </button>
+    </div>
 </body>
 </html>
