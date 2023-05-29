@@ -11,6 +11,7 @@ from capstone import db
 from capstone.forms import ImageForm
 from capstone.models import User
 from capstone.models import Image
+from capstone.models import Report
 
 bp = Blueprint('process', __name__, url_prefix='/process')
 
@@ -27,16 +28,13 @@ def is_image_url(url):
 
 def request_process(id):
     data = {'value': id}
-    url = 'http://2e27-34-171-99-39.ngrok-free.app/process'
+    url = 'http://bc53-35-247-10-214.ngrok-free.app/process'
     response = requests.post(url, json=data)
-
-    print(response.json()['result'])
 
     if response.status_code == 200:
         return response.json()['result']
     else:
         return None
-
 
 @bp.route('/img', methods=('GET', 'POST'))
 def img():
@@ -94,12 +92,10 @@ def cam():
 
 @bp.route('/result/<id>', methods=('GET', 'POST'))
 def result(id):
-    image = Image.query.filter_by(id=id).first()
-    if image.result is None:
-        id = request_process(id) # 머신러닝 서버
+    id = request_process(id) # 머신러닝 서버
 
-        image = Image.query.filter_by(id=id).first()
-        image.result = base64.b64encode(image.result).decode('utf-8')
+    image = Image.query.filter_by(id=id).first()
+    image.result = base64.b64encode(image.result).decode('utf-8')
     if id != -1:
         return render_template('process/result.html', image=image)
     else:
@@ -113,9 +109,16 @@ def captured():
         image.image = base64.b64encode(image.image).decode('utf-8')
     return render_template('process/captured.html', images=images)
 
-@bp.route('/error_report', methods=('GET', 'POST'))
-def error():
+@bp.route('/error_report/<id>', methods=('GET', 'POST'))
+def error(id):
     if request.method == 'POST':
-        content = request.form['content']
+        if request.form.get('source') == 'javascript':
+            user = session.get('user_id')
+            content = request.form.get('content')
+            print(content)
 
-    return render_template('process/error.html')
+            report = Report(user=user, image=id, content=content)
+            db.session.add(report)
+            db.session.commit()
+    else:
+        return render_template('process/error.html', id=id)

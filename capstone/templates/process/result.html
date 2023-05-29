@@ -42,16 +42,17 @@
     </style>
 
     <script>
-        function errorPopup() {
-            window.open("{{ url_for('process.error') }}", "error", "width=600, height=480, left=0, top=0");
+        function errorPopup(id) {
+            url = '/process/error_report/' + id.toString();
+            window.open(url, "error", "width=600, height=480, left=0, top=0");
 		}
     </script>
 </head>
 <body>
     <div style="text-align: center">
-        <img src="data:image/png;base64,{{ image.image }}" alt="image" width="1000" height="550">
+        <img src="data:image/png;base64,{{ image.result }}" alt="image" width="1000" height="550">
         <br>
-        <button name="err_report" id="err_report" class="error_report_btn" onclick="errorPopup()"> 오류 신고 </button>
+        <button name="err_report" id="err_report" class="error_report_btn" onclick="errorPopup({{ image.id }})"> 오류 신고 </button>
     </div>
 </body>
 </html>

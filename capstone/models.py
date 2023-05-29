@@ -19,7 +19,8 @@ class Image(db.Model):
     type = db.Column(db.Integer, nullable=False)
     date = db.Column(db.DateTime, default=datetime.now(pytz.timezone('Asia/Seoul')), nullable=False)
 
-'''class Report(db.Model):
+class Report(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    user = db.Column(db.Integer, nullable=False)
     image = db.Column(db.Integer, nullable=False)
-    content = db.Column(db.text)'''
+    content = db.Column(db.String(20000))

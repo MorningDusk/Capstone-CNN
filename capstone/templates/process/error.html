@@ -27,6 +27,28 @@
             outline-color: #dedede;
         }
     </style>
+
+    <script>
+        function closePopup(id) {
+			var formData = new FormData();
+            var content = document.getElementById('content').value;
+			formData.append('source', 'javascript');
+			formData.append('content', content);
+
+			var xhr = new XMLHttpRequest();
+			xhr.open('POST', '{{ url_for('process.error', id=id) }}');
+			xhr.onload = function () {
+				if (xhr.status === 200) {
+					console.log('Image uploaded successfully.');
+				} else {
+					console.log('Failed to upload image.');
+				}
+			};
+			xhr.send(formData);
+
+            window.close();
+		}
+    </script>
 </head>
 <body>
     <div style="text-align: center">
@@ -34,7 +56,7 @@
         <form>
             <textarea name="content" id="content" style="width: 100%; height: 100%" rows="25"></textarea>
             <br>
-            <input type="submit" value="제출" class="submit">
+            <input type="submit" value="제출" class="submit" onclick="closePopup({{ id }})">
         </form>
     </div>
 </body>
