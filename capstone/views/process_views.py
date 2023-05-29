@@ -28,7 +28,7 @@ def is_image_url(url):
 
 def request_process(id):
     data = {'value': id}
-    url = 'http://bc53-35-247-10-214.ngrok-free.app/process'
+    url = 'http://3d9e-34-67-141-34.ngrok-free.app/process'
     response = requests.post(url, json=data)
 
     if response.status_code == 200:
@@ -92,10 +92,11 @@ def cam():
 
 @bp.route('/result/<id>', methods=('GET', 'POST'))
 def result(id):
-    id = request_process(id) # 머신러닝 서버
+    id = request_process(id)  # 머신러닝 서버
 
     image = Image.query.filter_by(id=id).first()
     image.result = base64.b64encode(image.result).decode('utf-8')
+
     if id != -1:
         return render_template('process/result.html', image=image)
     else:
@@ -115,11 +116,11 @@ def error(id):
         if request.form.get('source') == 'javascript':
             user = session.get('user_id')
             content = request.form.get('content')
-            print(content)
 
-            report = Report(user=user, image=id, content=content)
-            db.session.add(report)
-            db.session.commit()
+            if content:
+                report = Report(user=user, image=id, content=content)
+                db.session.add(report)
+                db.session.commit()
     else:
         return render_template('process/error.html', id=id)
 
