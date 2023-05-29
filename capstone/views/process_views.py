@@ -94,10 +94,12 @@ def cam():
 
 @bp.route('/result/<id>', methods=('GET', 'POST'))
 def result(id):
-    id = request_process(id) # 머신러닝 서버
-
     image = Image.query.filter_by(id=id).first()
-    image.result = base64.b64encode(image.result).decode('utf-8')
+    if image.result is None:
+        id = request_process(id) # 머신러닝 서버
+
+        image = Image.query.filter_by(id=id).first()
+        image.result = base64.b64encode(image.result).decode('utf-8')
     if id != -1:
         return render_template('process/result.html', image=image)
     else:
