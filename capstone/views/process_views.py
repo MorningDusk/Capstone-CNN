@@ -122,3 +122,8 @@ def error(id):
             db.session.commit()
     else:
         return render_template('process/error.html', id=id)
+
+@bp.route('/report', methods=('GET', 'POST'))
+def report():
+    reports = Report.query.all()
+    return render_template('process/report.html', reports=reports)

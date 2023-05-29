@@ -16,5 +16,7 @@ def index():
     user_id = session.get('user_id')
     if user_id is None:
         return redirect(url_for('auth.login'))
+    elif user_id == 1:
+        return redirect(url_for('process.report'))
     else:
         return redirect(url_for('main.select'))
