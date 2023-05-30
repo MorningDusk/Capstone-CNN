@@ -28,7 +28,7 @@ def is_image_url(url):
 
 def request_process(id):
     data = {'value': id}
-    url = 'https://982e-118-33-40-112.ngrok-free.app/process'
+    url = 'https://pcbdd.ngrok.app/process'
     response = requests.post(url, json=data)
 
     if response.status_code == 200:
