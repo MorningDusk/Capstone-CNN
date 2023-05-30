@@ -45,7 +45,7 @@
 <body>
 	{% if g.user %}
 	<div class="outline">
-		<h1 class="title"> 컴퓨터 비전 기반 PCB 결함 탐지 </h1>
+		<a class="title" href="/"> 컴퓨터 비전 기반 PCB 결함 탐지 </a>
 		<div class="inline">
 			<p class="margin1 link-box">
 				<a href="" class="blue-link" target="_blank">
@@ -64,11 +64,16 @@
 			</p>
 			<form method="post" enctype="multipart/form-data">
 				<div class="option-box first">
-					<label class="option-left" for="image-file">내 PC에서 가져오기</label>
 					<div class="option-right">
-						<input type="url" id="image-url" name="image-url" placeholder="URL 입력" style="height:60px;">
-						<button onclick="loadImage()" class=submit2>불러오기</button>
-						<div class="option-right-small">
+						<input type="url" id="image-url" name="image-url" placeholder="URL 입력" style="height:40px;">
+                        <input type="button" onclick="loadImage()" class="option-left" name="type" value="링크 사진 불러오기" style="height:70px; margin-top:20px;">
+                        <div class="option-left">
+							<label for="image-file" name="image-file" accept="image/*" onchange="showImage(event)"
+								style="width:200px">
+								내 PC에서 가져오기
+							</label>
+						</div>
+						<div class="option-right-small" style="display: none">
 							또는 파일 업로드:
 							<input type="file" id="image-file" name="image-file" accept="image/*"
 								onchange="showImage(event)">
@@ -76,7 +81,8 @@
 					</div>
 
                     <br>
-                    <select name="PCB_type" id="PCB_type">
+                    <select name="PCB_type" id="PCB_type"
+                    style="margin-top:20px; height:50px; border: 5px solid #7dc9e2; border-radius: 0.3em;">
                         <option value="0"> TM_Chassis_Single </option>
                         <option value="1"> TM_Chassis_MULT </option>
                         <option value="2"> TM-A_Chassis_Single </option>
@@ -88,9 +94,10 @@
 					<p id="error-message" style="display: none; color: red;">Error loading image.</p>
 				</div>
 
-				<input type="submit" id="analyze-button" name="type" class="button" value="저장" style="margin-bottom:20px">
-				<input type="submit" id="check-button" name="type" class="button" value="조회" style="margin-bottom:20px"
-					onclick="capturedPopup()">
+				<input type="submit" id="analyze-button" name="type" class="split-submit" value="저장"
+					style="margin-bottom:20px; margin-right:10px;">
+				<input type="submit" id="check-button" name="type" class="split-submit" value="조회"
+					style="margin-bottom:20px" onclick="capturedPopup()">
 			</form>
 
 			<div

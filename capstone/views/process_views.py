@@ -28,7 +28,7 @@ def is_image_url(url):
 
 def request_process(id):
     data = {'value': id}
-    url = 'http://3d9e-34-67-141-34.ngrok-free.app/process'
+    url = 'http://176f-35-245-216-147.ngrok-free.app/process'
     response = requests.post(url, json=data)
 
     if response.status_code == 200:
@@ -72,7 +72,6 @@ def img():
                     flash("올바른 url을 입력해주세요.")
             else:
                 flash("파일을 업로드해주세요.")
-
     return render_template('process/img.html', form=form)
 
 @bp.route('/cam', methods=('GET', 'POST'))
@@ -94,13 +93,13 @@ def cam():
 def result(id):
     id = request_process(id)  # 머신러닝 서버
 
+    if id is None:
+        return render_template('404.html')
+
     image = Image.query.filter_by(id=id).first()
     image.result = base64.b64encode(image.result).decode('utf-8')
 
-    if id != -1:
-        return render_template('process/result.html', image=image)
-    else:
-        flash("이미지 분석에 실패했습니다.")
+    return render_template('process/result.html', image=image)
 
 @bp.route('/captured', methods=('GET', 'POST'))
 def captured():
