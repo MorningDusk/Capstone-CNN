@@ -10,14 +10,18 @@
 
 	<script>
 		var video = null;
-		var canvas = null;
-		var ctx = null;
+		var canvas1 = null;
+        var canvas2 = null;
+		var ctx1 = null;
+        var ctx2 = null;
 		var interval = 0;
 
 		function startVideo() {
 			video = document.getElementById("video");
-			canvas = document.getElementById("canvas");
-			ctx = canvas.getContext("2d");
+			canvas1 = document.getElementById("canvas1");
+			canvas2 = document.getElementById("canvas2");
+			ctx1 = canvas1.getContext("2d");
+			ctx2 = canvas2.getContext("2d");
 
 			if (navigator.mediaDevices.getUserMedia) {
 				navigator.mediaDevices.getUserMedia({ video: true })
@@ -48,13 +52,15 @@
                 document.getElementById('auto_disapply').disabled = true;
 			}
 
-			if (ctx) {
-				ctx.clearRect(0, 0, canvas.width, canvas.height);
+			if (ctx1) {
+				ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
+				ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
 			}
 		}
 
 		function takeSnapshot() {
-			ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+			ctx1.drawImage(video, 0, 0, canvas1.width, canvas1.height);
+			ctx2.drawImage(video, 0, 0, canvas2.width, canvas2.height);
 
 			document.getElementById('analyze-button').disabled = false;
 			document.getElementById('save').disabled = false;
@@ -65,7 +71,7 @@
 			var formData = new FormData();
             var type = document.getElementById("PCB_type");
 			formData.append('source', 'javascript');
-			formData.append('image', canvas.toDataURL());
+			formData.append('image', canvas2.toDataURL());
             formData.append('type', type.options[type.selectedIndex].value);
 
 			var xhr = new XMLHttpRequest();
@@ -81,8 +87,8 @@
 		}
 
 		function downloadCanvas() {
-			var canvas = document.getElementById("canvas");
-			var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+			var canvas2 = document.getElementById("canvas2");
+			var image = canvas2.toDataURL("image/png").replace("image/png", "image/octet-stream");
 			var link = document.createElement('a');
 
 			link.download = "image.png";
@@ -183,7 +189,8 @@
 			</form>
 
 			<video id="video" width="640" height="360"></video><br>
-			<canvas id="canvas" width="480" height="270"></canvas><br>
+			<canvas id="canvas1" width="480" height="270"></canvas><br>
+			<canvas id="canvas2" width="4032" height="2268" style="display: none"></canvas>
 		</div>
 	</div>
 	<p> <a href="{{ url_for('auth.logout') }}"> {{ g.user.username }} (로그아웃) </a> </p>
