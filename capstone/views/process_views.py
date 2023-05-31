@@ -103,11 +103,20 @@ def result(id):
 
 @bp.route('/captured', methods=('GET', 'POST'))
 def captured():
-    user_id = session.get('user_id')
-    images = Image.query.filter_by(user=user_id).all()
-    for image in images:
-        image.image = base64.b64encode(image.image).decode('utf-8')
-    return render_template('process/captured.html', images=images)
+    if request.method == 'POST':
+        if request.form.get('source') == 'javascript':
+            image_id = request.form.get('id')
+            image = Image.query.get(image_id)
+            if image:
+                db.session.delete(image)
+                db.session.commit()
+                return {'success': True}
+    else:
+        user_id = session.get('user_id')
+        images = Image.query.filter_by(user=user_id).all()
+        for image in images:
+            image.image = base64.b64encode(image.image).decode('utf-8')
+        return render_template('process/captured.html', images=images)
 
 @bp.route('/error_report/<id>', methods=('GET', 'POST'))
 def error(id):
